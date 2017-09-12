@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="hibernateAndJdbc">
+    <CLASSES>
+      <root url="file://F:/javaweb类库/hibernateAndJdbc" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://F:/javaweb类库/hibernateAndJdbc" recursive="false" />
+  </library>
+</component>
