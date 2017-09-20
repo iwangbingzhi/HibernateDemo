@@ -3,11 +3,16 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <!--配置数据库信息-->
+    <!--1.配置数据库信息-->
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql:///users</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">h.1111032</property>
+
+    <!--2.配置Hibernate信息  不是必须填写的部分-->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
     </session-factory>
 </hibernate-configuration>
