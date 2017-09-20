@@ -20,7 +20,6 @@
         <property name="password" column="password"/>
 
         <property name="address" column="address"/>
-
     </class>
 
 
