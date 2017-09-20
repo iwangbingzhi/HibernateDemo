@@ -13,7 +13,7 @@
         </id>
         <!--配置其他属性和表字段对应
         name属性：实体类的属性名称
-        column属性:生成表的字段名称
+        column属性:生成表的字段名称 可以省略不写，省略之后就会自动按照name的名字添加表中字段的名字
         -->
         <property name="username" column="username"/>
 
