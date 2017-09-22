@@ -12,8 +12,50 @@ import java.util.List;
 public class HibernateTest
 {
     public static void main(String[] args) {
-        testCriteria();
+        testSQLQuery();
     }
+    public static void testSQLQuery(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            //创建SQLQuery对象
+            SQLQuery sqlQuery = session.createSQLQuery("select * from user");
+
+
+            //返回的List中的每个部分是对象的形式
+           sqlQuery.addEntity(User.class);
+
+            //调用sqlQuery里面的方法
+            List<User> list = sqlQuery.list();
+
+            for (User user: list) {
+                System.out.println(user);
+            }
+
+
+            //调用SQLQuery对象里面的方法得到结果 返回的list集合默认是数组的结构
+           /* List<Object[]> list = sqlQuery.list();
+            for (Object[] objects : list) {
+                System.out.println(Arrays.toString(objects));
+            }*/
+
+
+            transaction.commit();
+
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
+
+
     public static void testCriteria(){
         SessionFactory sessionFactory = null;
         Session session = null;
