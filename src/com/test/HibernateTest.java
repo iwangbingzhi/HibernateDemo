@@ -2,9 +2,9 @@ package com.test;
 
 import com.example.entity.User;
 import com.utils.HibernateUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+
+import java.util.List;
 
 /**
  * Created by 王炳智 on 2017/9/20.
@@ -12,9 +12,63 @@ import org.hibernate.Transaction;
 public class HibernateTest
 {
     public static void main(String[] args) {
-        testSaveOrUpdate();
+        testCriteria();
+    }
+    public static void testCriteria(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            sessionFactory = HibernateUtils.getSessionFactory();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            //创建Criteria对象
+            Criteria criteria = session.createCriteria(User.class);
+
+            //调用Criteria对象里面的方法得到的结果的
+            List<User> list = criteria.list();
+            for(User user : list){
+                System.out.println(user);
+            }
+
+            transaction.commit();
+
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
     }
 
+    public static void testQuery(){
+        SessionFactory sessionFactory = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+             sessionFactory = HibernateUtils.getSessionFactory();
+             session = sessionFactory.openSession();
+             transaction = session.beginTransaction();
+
+             //创建query对象
+               Query query =  session.createQuery("from User");
+
+               //调用query对象里面的方法得到的结果的
+               List<User> list = query.list();
+               for(User user : list){
+                   System.out.println(user);
+               }
+
+               transaction.commit();
+
+        }catch (Exception e){
+            transaction.rollback();
+        }finally {
+            session.close();
+            sessionFactory.close();
+        }
+    }
     public static void testAdd(){
         /*1.加载hibernate的核心配置文件 在hibernate中封装对象*/
         //Configuration configuration = new Configuration().configure();
@@ -130,5 +184,47 @@ public class HibernateTest
         transaction.commit();
         session.close();
         sessionFactory.close();
+    }
+    public static void firstCache(){
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        User user = session.get(User.class,5);
+        System.out.println(user);
+
+
+        User user2 = session.get(User.class,5);
+        System.out.println(user2);
+
+        transaction.commit();
+        session.close();
+        sessionFactory.close();
+    }
+    //事务规范代码
+    public static void testTX(){
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            //hibernate绑定session
+            session = HibernateUtils.getSessionobject();
+            transaction = session.beginTransaction();
+
+            User user = new User();
+            user.setUsername("mayun2");
+            user.setPassword("123");
+            user.setAddress("杭州");
+            session.save(user);
+
+            //int i = 10/0;
+
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+        }
+      /*  finally {
+            //session.close();
+            //sessionFactory.close();
+        }*/
     }
 }

@@ -1,5 +1,6 @@
 package com.utils;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -13,6 +14,10 @@ public class HibernateUtils {
     static {
         cfg = new Configuration().configure();
         sessionFactory = cfg.buildSessionFactory();
+    }
+    //提供返回与本地线程的session方法
+    public static Session getSessionobject(){
+        return sessionFactory.getCurrentSession();
     }
 
     public static SessionFactory getSessionFactory(){
